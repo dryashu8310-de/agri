@@ -1,0 +1,161 @@
+# Smart Agriculture Management System
+
+A web-based application designed to help farmers manage important agricultural activities through a single platform. The system provides modules for crop management, soil information, irrigation management, and disease information, with a Node.js backend and MongoDB database.
+
+## Project Overview
+
+The Smart Agriculture Management System aims to make farm-related information easier to record, organize, and access. Farmers can use the web interface to manage agricultural records instead of maintaining them manually.
+
+## Main Features
+
+- **Farmer registration and login** – access the application through the authentication pages.
+- **Dashboard** – navigate between the available agriculture modules.
+- **Crop management** – enter and manage crop-related information.
+- **Soil management** – record soil details.
+- **Irrigation management** – maintain irrigation-related records.
+- **Disease information** – view and manage information related to crop diseases.
+- **MongoDB storage** – store application records in a database through the backend API.
+
+> The exact fields and available actions depend on the current implementation in the project source code.
+
+## Technologies Used
+
+| Layer | Technologies |
+|---|---|
+| Frontend | HTML, CSS, JavaScript |
+| Backend | Node.js, Express.js |
+| Database | MongoDB, Mongoose |
+| Authentication dependency | bcryptjs |
+| API / middleware | Express, CORS |
+
+## Project Structure
+
+```text
+agri/
+├── backend/             # Node.js and Express backend
+├── public/              # Frontend pages and static assets
+├── about.html
+├── crops.html
+├── dashboard.html
+├── disease.html
+├── index.html
+├── irrigation.html
+├── soil.html
+├── script.js
+├── style.css
+├── package.json
+└── package-lock.json
+```
+
+Some frontend files may also be present in the `public/` folder. Use the files and paths in your local project as the source of truth.
+
+## Requirements
+
+Install the following before running the project:
+
+- [Node.js](https://nodejs.org/) (includes npm)
+- [MongoDB Community Server](https://www.mongodb.com/try/download/community)
+- [Visual Studio Code](https://code.visualstudio.com/) (recommended)
+
+## Installation and Setup
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/dryashu8310-de/agri.git
+cd agri
+```
+
+### 2. Install dependencies
+
+From the project root, run:
+
+```bash
+npm install
+```
+
+The project declares Express, Mongoose, CORS, and bcryptjs as dependencies.
+
+### 3. Start MongoDB
+
+Make sure the MongoDB service is running on your computer.
+
+The development database connection used by this project is:
+
+```text
+mongodb://127.0.0.1:27017/smartAgriculture
+```
+
+This connects to a local MongoDB database named `smartAgriculture`. If your backend configuration uses a different connection string, follow the value in your local backend configuration.
+
+### 4. Start the backend
+
+Open a terminal in VS Code and run:
+
+```powershell
+cd backend
+node server.js
+```
+
+If your `server.js` file is located somewhere else in your local copy, change to that folder before running the command.
+
+When the server starts successfully, the terminal should show a message indicating that it is running at:
+
+```text
+http://localhost:3000
+```
+
+### 5. Open the application
+
+When the backend is running, open the application through the local server URL:
+
+```text
+http://localhost:3000
+```
+
+Use the application's home page to register or log in and navigate to the available modules. Do not rely on opening individual HTML files with `file://` when they need to call backend API routes.
+
+## Database
+
+The application uses MongoDB with Mongoose for database access.
+
+Default local database:
+
+```text
+Database name: smartAgriculture
+Connection: mongodb://127.0.0.1:27017/smartAgriculture
+```
+
+Ensure MongoDB is running before starting the backend. Records are stored according to the schemas and API routes implemented in the backend.
+
+## Troubleshooting
+
+- **Backend does not start:** confirm Node.js is installed and run `npm install` from the folder containing the relevant `package.json`.
+- **MongoDB connection error:** start the MongoDB service and verify the connection string.
+- **Page cannot reach the API:** confirm the backend is running and open the site using `http://localhost:3000`.
+- **A record is not saved:** check the browser Developer Tools Console and Network tab, then check the backend terminal for API or database errors.
+- **Port 3000 is already in use:** stop the other process using that port or update the backend port configuration.
+
+## Future Enhancements
+
+- Add detailed reports and data visualization.
+- Improve mobile and tablet responsiveness.
+- Add stronger authentication and role-based access.
+- Provide weather and crop recommendation integrations.
+- Add export and backup options for agricultural records.
+
+## Contributing
+
+1. Fork the repository.
+2. Create a feature branch.
+3. Make and test your changes.
+4. Commit and push the branch.
+5. Open a pull request.
+
+## License
+
+This project currently contains the license value `ISC` in its `package.json`. Confirm the intended project license and add a `LICENSE` file before redistributing the project.
+
+## Repository
+
+[https://github.com/dryashu8310-de/agri](https://github.com/dryashu8310-de/agri)
