@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About - Smart Agriculture</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    color: #183b24;
+    background:
+        linear-gradient(rgba(225,247,228,.88), rgba(210,242,216,.88)),
+        url("https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=2000&q=80");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+header {
+    width: 100%;
+    background: linear-gradient(90deg,#08752e,#168b3d,#239447);
+    color: white;
+    padding: 18px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    box-shadow: 0 3px 10px rgba(0,0,0,.2);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 28px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.logo-icon {
+    font-size: 35px;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 9px 11px;
+    border-radius: 20px;
+}
+
+nav a:hover {
+    background: rgba(255,255,255,.18);
+}
+
+.login-link {
+    background: white;
+    color: #08752e !important;
+    padding: 9px 17px !important;
+    margin-left: 5px;
+}
+
+.signup-link {
+    background: #f4b400;
+    color: white !important;
+    padding: 9px 17px !important;
+}
+
+.container {
+    width: 80%;
+    max-width: 1100px;
+    margin: 35px auto 60px;
+}
+
+.page-title {
+    text-align: center;
+    color: #08752e;
+    font-size: 40px;
+    margin-bottom: 8px;
+}
+
+.page-subtitle {
+    text-align: center;
+    color: #45604c;
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+.card {
+    background: white;
+    padding: 38px;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,.12);
+    margin-bottom: 30px;
+}
+
+.card h2 {
+    color: #08752e;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.card p {
+    color: #405448;
+    font-size: 17px;
+    line-height: 1.8;
+    margin-bottom: 15px;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.info-box {
+    background: #f5fbf5;
+    padding: 22px;
+    border-radius: 12px;
+    border: 1px solid #d6e8d8;
+}
+
+.info-box h3 {
+    color: #08752e;
+    margin-bottom: 12px;
+}
+
+.info-box p {
+    font-size: 16px;
+    margin-bottom: 0;
+}
+
+.button-link {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 13px 25px;
+    background: #f4b400;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 9px;
+}
+
+.button-link:hover {
+    background: #d99d00;
+}
+
+footer {
+    background: #075c27;
+    color: white;
+    text-align: center;
+    padding: 25px;
+}
+
+footer p {
+    margin: 5px;
+}
+
+@media (max-width: 1000px) {
+    header {
+        flex-direction: column;
+    }
+
+    .container {
+        width: 90%;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .logo {
+        font-size: 22px;
+    }
+
+    nav a {
+        font-size: 13px;
+        padding: 7px;
+    }
+
+    .page-title {
+        font-size: 30px;
+    }
+
+    .card {
+        padding: 25px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">
+        <span class="logo-icon">🌱</span>
+        <span>Smart Agriculture</span>
+    </div>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="crops.html">Crop</a>
+        <a href="soil.html">Soil</a>
+        <a href="irrigation.html">Irrigation</a>
+        <a href="disease.html">Disease Detection</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="login.html" class="login-link">Login</a>
+        <a href="signup.html" class="signup-link">Sign In</a>
+    </nav>
+</header>
+
+<main class="container">
+    <h1 class="page-title">About Smart Agriculture</h1>
+    <p class="page-subtitle">Smart technology for modern farming</p>
+
+    <section class="card">
+        <h2>🌱 About Our Project</h2>
+
+        <p>
+            Smart Agriculture Management System is a web-based project designed
+            to help farmers organize important farming information in one place.
+            It provides pages for crop management, soil information, irrigation
+            planning, and plant disease detection.
+        </p>
+
+        <p>
+            The system is intended to make agricultural information easier to
+            manage and understand. Farmers can enter field details and view
+            information or recommendations based on the values they provide.
+        </p>
+
+        <p>
+            This project is a learning and demonstration system. Soil readings
+            and field conditions must be entered by the user or supplied by
+            suitable sensors or connected services.
+        </p>
+
+        <a href="index.html" class="button-link">Back to Home</a>
+    </section>
+
+    <section class="card">
+        <h2>🌾 Main Features</h2>
+
+        <div class="info-grid">
+            <div class="info-box">
+                <h3>Crop Management</h3>
+                <p>Record crop names, field area, sowing dates, harvest dates, and crop status.</p>
+            </div>
+
+            <div class="info-box">
+                <h3>Soil Management</h3>
+                <p>Enter soil type, pH, nutrient values, and moisture information.</p>
+            </div>
+
+            <div class="info-box">
+                <h3>Irrigation Management</h3>
+                <p>Record water levels, soil moisture, and irrigation methods.</p>
+            </div>
+
+            <div class="info-box">
+                <h3>Disease Detection</h3>
+                <p>Provide a place to add plant disease detection features or connect an AI model.</p>
+            </div>
+
+            <div class="info-box">
+                <h3>Dashboard</h3>
+                <p>Display a summary of agricultural records and entered information.</p>
+            </div>
+
+            <div class="info-box">
+                <h3>User Access</h3>
+                <p>Login and Sign In pages can be used as the starting point for user accounts.</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>🌱 Smart Agriculture Management System</p>
+    <p>Smart technology for modern farming</p>
+    <p>© 2026 Smart Agriculture</p>
+</footer>
+
+</body>
+</html>

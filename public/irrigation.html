@@ -1,0 +1,909 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Irrigation Management | Smart Agriculture</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 25px;
+    font-family: Arial, sans-serif;
+    background:
+        linear-gradient(rgba(0,70,40,.75),rgba(0,70,40,.75)),
+        url("https://images.unsplash.com/photo-1500382017468-9049fed747ef")
+        center/cover fixed;
+    color: #183b29;
+}
+
+.container {
+    max-width: 920px;
+    margin: 0 auto 25px;
+    padding: 30px;
+    background: white;
+    border-radius: 13px;
+    box-shadow: 0 5px 20px rgba(0,0,0,.15);
+}
+
+h1, h2 {
+    text-align: center;
+    color: #087b3d;
+}
+
+h1 {
+    margin-top: 0;
+}
+
+.login-info {
+    background: #e6f5e8;
+    padding: 15px;
+    border-left: 5px solid #168746;
+    border-radius: 6px;
+    margin-bottom: 22px;
+    font-size: 17px;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 9px;
+}
+
+input, select {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #c8dfce;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    background: white;
+}
+
+input:focus, select:focus {
+    outline: 2px solid #198754;
+}
+
+.button-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+button {
+    padding: 14px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.save-btn {
+    background: #087b38;
+    color: white;
+}
+
+.refresh-btn {
+    background: #1769c2;
+    color: white;
+}
+
+.delete-btn {
+    background: #dc2626;
+    color: white;
+    padding: 9px 13px;
+}
+
+button:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
+.message {
+    display: none;
+    padding: 14px;
+    margin-top: 16px;
+    border-radius: 7px;
+}
+
+.success {
+    display: block;
+    color: #087443;
+    background: #dff5e4;
+}
+
+.error {
+    display: block;
+    color: #b42318;
+    background: #ffe1e1;
+}
+
+.records {
+    margin-top: 25px;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    min-width: 700px;
+    border-collapse: collapse;
+    margin-top: 18px;
+}
+
+th {
+    background: #087b3d;
+    color: white;
+    padding: 13px;
+    text-align: left;
+}
+
+td {
+    padding: 13px;
+    border: 1px solid #d7e5da;
+}
+
+.empty {
+    text-align: center;
+    padding: 25px;
+    color: #555;
+}
+
+@media(max-width:600px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        padding: 18px;
+    }
+
+    .button-row button {
+        width: 100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- IRRIGATION FORM -->
+
+<div class="container">
+
+    <h1>💧 Irrigation Management</h1>
+
+    <div class="login-info">
+        👤 Logged in as:
+        <strong id="loggedInUser">Farmer</strong>
+    </div>
+
+    <form id="irrigationForm">
+
+        <!-- CROP NAME -->
+
+        <div class="form-group">
+
+            <label for="cropName">Crop Name *</label>
+
+            <select id="cropName" required>
+
+                <option value="">-- Select Crop --</option>
+
+                <option value="Rice">Rice</option>
+                <option value="Wheat">Wheat</option>
+                <option value="Maize">Maize</option>
+                <option value="Ragi">Ragi</option>
+                <option value="Sugarcane">Sugarcane</option>
+                <option value="Cotton">Cotton</option>
+                <option value="Groundnut">Groundnut</option>
+                <option value="Tomato">Tomato</option>
+                <option value="Potato">Potato</option>
+                <option value="Onion">Onion</option>
+                <option value="Pulses">Pulses</option>
+                <option value="Millets">Millets</option>
+                <option value="Other">Other</option>
+
+            </select>
+
+        </div>
+
+
+        <!-- IRRIGATION METHOD -->
+
+        <div class="form-group">
+
+            <label for="irrigationMethod">
+                Irrigation Method *
+            </label>
+
+            <select id="irrigationMethod" required>
+
+                <option value="">-- Select Method --</option>
+
+                <option value="Drip Irrigation">
+                    Drip Irrigation
+                </option>
+
+                <option value="Sprinkler Irrigation">
+                    Sprinkler Irrigation
+                </option>
+
+                <option value="Flood Irrigation">
+                    Flood Irrigation
+                </option>
+
+                <option value="Furrow Irrigation">
+                    Furrow Irrigation
+                </option>
+
+                <option value="Manual Irrigation">
+                    Manual Irrigation
+                </option>
+
+                <option value="Rainwater Irrigation">
+                    Rainwater Irrigation
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- WATER AMOUNT -->
+
+        <div class="form-group">
+
+            <label for="waterAmount">
+                Water Amount (litres) *
+            </label>
+
+            <input
+                type="number"
+                id="waterAmount"
+                min="0.01"
+                step="0.01"
+                placeholder="Enter water amount in litres"
+                required
+            >
+
+        </div>
+
+
+        <!-- IRRIGATION SCHEDULE -->
+
+        <div class="form-group">
+
+            <label for="schedule">
+                Irrigation Schedule *
+            </label>
+
+            <select id="schedule" required>
+
+                <option value="">-- Select Schedule --</option>
+
+                <option value="Every morning">
+                    Every morning
+                </option>
+
+                <option value="Every evening">
+                    Every evening
+                </option>
+
+                <option value="Twice a day">
+                    Twice a day
+                </option>
+
+                <option value="Once in two days">
+                    Once in two days
+                </option>
+
+                <option value="Once a week">
+                    Once a week
+                </option>
+
+                <option value="As required">
+                    As required
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- DATE -->
+
+        <div class="form-group">
+
+            <label for="irrigationDate">
+                Irrigation Date *
+            </label>
+
+            <input
+                type="date"
+                id="irrigationDate"
+                required
+            >
+
+        </div>
+
+
+        <!-- BUTTONS -->
+
+        <div class="button-row">
+
+            <button
+                type="submit"
+                class="save-btn"
+                id="saveButton"
+            >
+                💾 Save Irrigation Data
+            </button>
+
+            <button
+                type="button"
+                class="refresh-btn"
+                id="refreshButton"
+            >
+                🔄 Refresh Records
+            </button>
+
+        </div>
+
+    </form>
+
+    <div id="message" class="message"></div>
+
+</div>
+
+
+<!-- SAVED IRRIGATION RECORDS -->
+
+<div class="container records">
+
+    <h2>📋 Saved Irrigation Records</h2>
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Crop Name</th>
+                    <th>Irrigation Method</th>
+                    <th>Water (Litres)</th>
+                    <th>Schedule</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="recordsBody">
+
+                <tr>
+                    <td colspan="6" class="empty">
+                        Loading irrigation records...
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<script>
+
+// ==========================================
+// USER INFORMATION
+// ==========================================
+
+const userId = localStorage.getItem("userId");
+
+let userName = localStorage.getItem("userName") || "Farmer";
+
+try {
+
+    const user = JSON.parse(
+        localStorage.getItem("user") || "{}"
+    );
+
+    userName =
+        user.farmerName ||
+        user.username ||
+        user.name ||
+        userName;
+
+} catch(error) {
+
+    console.log("Using stored username");
+
+}
+
+document.getElementById("loggedInUser").textContent =
+    userName;
+
+
+// ==========================================
+// ELEMENTS
+// ==========================================
+
+const form = document.getElementById("irrigationForm");
+
+const recordsBody =
+    document.getElementById("recordsBody");
+
+const messageBox =
+    document.getElementById("message");
+
+const saveButton =
+    document.getElementById("saveButton");
+
+
+// ==========================================
+// MESSAGE FUNCTION
+// ==========================================
+
+function showMessage(message, type) {
+
+    messageBox.textContent = message;
+
+    messageBox.className = "message " + type;
+
+}
+
+function clearMessage() {
+
+    messageBox.textContent = "";
+
+    messageBox.className = "message";
+
+}
+
+
+// ==========================================
+// SAFE HTML DISPLAY
+// ==========================================
+
+function escapeHTML(value) {
+
+    return String(value ?? "").replace(
+        /[&<>"']/g,
+        function(character) {
+
+            return {
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#039;"
+            }[character];
+
+        }
+    );
+
+}
+
+
+// ==========================================
+// READ SERVER RESPONSE
+// ==========================================
+
+async function readResponse(response) {
+
+    const text = await response.text();
+
+    let result;
+
+    try {
+
+        result = JSON.parse(text);
+
+    } catch(error) {
+
+        throw new Error(
+            "Invalid response from server."
+        );
+
+    }
+
+    if (!response.ok || result.success === false) {
+
+        throw new Error(
+            result.message || "Request failed."
+        );
+
+    }
+
+    return result;
+
+}
+
+
+// ==========================================
+// SAVE IRRIGATION DATA
+// ==========================================
+
+form.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    clearMessage();
+
+    if (!userId) {
+
+        showMessage(
+            "Please login again. User ID not found.",
+            "error"
+        );
+
+        return;
+
+    }
+
+    const data = {
+
+        cropName:
+            document.getElementById("cropName").value,
+
+        irrigationMethod:
+            document.getElementById("irrigationMethod").value,
+
+        waterAmount:
+            Number(document.getElementById("waterAmount").value),
+
+        schedule:
+            document.getElementById("schedule").value,
+
+        irrigationDate:
+            document.getElementById("irrigationDate").value
+
+    };
+
+
+    if (
+        !data.cropName ||
+        !data.irrigationMethod ||
+        !data.schedule ||
+        !data.irrigationDate ||
+        !Number.isFinite(data.waterAmount) ||
+        data.waterAmount <= 0
+    ) {
+
+        showMessage(
+            "Please enter all required irrigation details.",
+            "error"
+        );
+
+        return;
+
+    }
+
+    saveButton.disabled = true;
+
+    saveButton.textContent = "Saving...";
+
+
+    try {
+
+        const response = await fetch("/api/irrigation", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+
+                userId: userId,
+
+                ...data
+
+            })
+
+        });
+
+
+        const result = await readResponse(response);
+
+
+        showMessage(
+            result.message ||
+            "Irrigation data saved successfully to MongoDB.",
+            "success"
+        );
+
+
+        form.reset();
+
+        await loadRecords();
+
+
+    } catch(error) {
+
+        console.error("Save irrigation error:", error);
+
+        showMessage(
+            "Unable to save irrigation: " + error.message,
+            "error"
+        );
+
+    } finally {
+
+        saveButton.disabled = false;
+
+        saveButton.textContent =
+            "💾 Save Irrigation Data";
+
+    }
+
+});
+
+
+// ==========================================
+// LOAD SAVED IRRIGATION RECORDS
+// ==========================================
+
+async function loadRecords() {
+
+    if (!userId) {
+
+        recordsBody.innerHTML = `
+            <tr>
+                <td colspan="6" class="empty">
+                    Please login to view your records.
+                </td>
+            </tr>
+        `;
+
+        return;
+
+    }
+
+    recordsBody.innerHTML = `
+        <tr>
+            <td colspan="6" class="empty">
+                Loading records...
+            </td>
+        </tr>
+    `;
+
+
+    try {
+
+        const response = await fetch(
+            "/api/irrigation/" + encodeURIComponent(userId)
+        );
+
+
+        const result = await readResponse(response);
+
+
+        const irrigationRecords =
+            Array.isArray(result.irrigation)
+                ? result.irrigation
+                : [];
+
+
+        recordsBody.innerHTML = "";
+
+
+        if (irrigationRecords.length === 0) {
+
+            recordsBody.innerHTML = `
+                <tr>
+                    <td colspan="6" class="empty">
+                        No irrigation records saved yet.
+                    </td>
+                </tr>
+            `;
+
+            return;
+
+        }
+
+
+        irrigationRecords.forEach(function(record) {
+
+            const irrigation = record.data || record;
+
+            if (!irrigation.cropName) return;
+
+
+            const date = irrigation.irrigationDate
+                ? new Date(
+                    irrigation.irrigationDate + "T00:00:00"
+                  ).toLocaleDateString("en-IN")
+                : "-";
+
+
+            const row = document.createElement("tr");
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${escapeHTML(irrigation.cropName)}
+                </td>
+
+                <td>
+                    ${escapeHTML(irrigation.irrigationMethod)}
+                </td>
+
+                <td>
+                    ${escapeHTML(irrigation.waterAmount)}
+                </td>
+
+                <td>
+                    ${escapeHTML(irrigation.schedule)}
+                </td>
+
+                <td>
+                    ${escapeHTML(date)}
+                </td>
+
+                <td>
+                    <button
+                        type="button"
+                        class="delete-btn"
+                    >
+                        Delete
+                    </button>
+                </td>
+
+            `;
+
+
+            row.querySelector(".delete-btn")
+            .addEventListener("click", function() {
+
+                deleteRecord(record._id);
+
+            });
+
+
+            recordsBody.appendChild(row);
+
+        });
+
+
+        if (recordsBody.children.length === 0) {
+
+            recordsBody.innerHTML = `
+                <tr>
+                    <td colspan="6" class="empty">
+                        No valid irrigation records found.
+                    </td>
+                </tr>
+            `;
+
+        }
+
+    } catch(error) {
+
+        console.error("Load irrigation error:", error);
+
+        recordsBody.innerHTML = `
+            <tr>
+                <td colspan="6" class="empty">
+                    Unable to load records:
+                    ${escapeHTML(error.message)}
+                </td>
+            </tr>
+        `;
+
+    }
+
+}
+
+
+// ==========================================
+// DELETE IRRIGATION RECORD
+// ==========================================
+
+async function deleteRecord(recordId) {
+
+    if (!recordId || !userId) {
+
+        showMessage(
+            "Record ID or User ID missing.",
+            "error"
+        );
+
+        return;
+
+    }
+
+    if (!confirm("Do you want to delete this irrigation record?")) {
+
+        return;
+
+    }
+
+
+    try {
+
+        const response = await fetch(
+
+            "/api/irrigation/" +
+            encodeURIComponent(recordId) +
+            "/" +
+            encodeURIComponent(userId),
+
+            {
+                method: "DELETE"
+            }
+
+        );
+
+
+        const result = await readResponse(response);
+
+
+        showMessage(
+            result.message ||
+            "Irrigation record deleted successfully.",
+            "success"
+        );
+
+
+        await loadRecords();
+
+
+    } catch(error) {
+
+        console.error("Delete error:", error);
+
+        showMessage(
+            "Delete failed: " + error.message,
+            "error"
+        );
+
+    }
+
+}
+
+
+// ==========================================
+// REFRESH RECORDS
+// ==========================================
+
+document.getElementById("refreshButton")
+.addEventListener("click", function() {
+
+    loadRecords();
+
+});
+
+
+// ==========================================
+// INITIAL LOAD
+// ==========================================
+
+loadRecords();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,11 @@
+[
+  {
+    "id": "079acef7-8214-4918-91b2-b6bb7b5a230c",
+    "fullName": "Dr Yashu",
+    "email": "dryashu8310@gmail.com",
+    "phone": "1234567898",
+    "salt": "059d7727a03b83562d4b16cc5e021f1d",
+    "passwordHash": "400b39a9b36bcf9daeb3de1678a73cf08fe105d8805495f08eeef49993e477deb06690ec126c731d8bcf14f45e26bb302883b0c25ff8ae35f52c73c03b646cab",
+    "createdAt": "2026-09-15T00:23:17.247Z"
+  }
+]

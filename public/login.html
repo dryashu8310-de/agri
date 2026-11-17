@@ -1,0 +1,279 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - Smart Agriculture</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background:
+      linear-gradient(rgba(0,80,50,.75),rgba(0,60,40,.75)),
+      url("https://images.unsplash.com/photo-1500382017468-9049fed747ef")
+      center/cover fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 450px;
+    max-width: 95%;
+    background: white;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,.3);
+}
+
+h1 {
+    text-align: center;
+    color: #087a27;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 25px;
+}
+
+label {
+    display: block;
+    margin: 18px 0 8px;
+    font-weight: bold;
+    color: #064d24;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #cbd8d0;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    margin-top: 25px;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    background: #087a27;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:disabled {
+    background: #888;
+}
+
+#message {
+    display: none;
+    margin-top: 20px;
+    padding: 14px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.success {
+    display: block !important;
+    background: #e4f7e8;
+    color: #087a27;
+}
+
+.error {
+    display: block !important;
+    background: #ffe6e6;
+    color: #c00000;
+}
+
+.links {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.links a {
+    color: #087a27;
+    font-weight: bold;
+    text-decoration: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🌱 Smart Agriculture</h1>
+
+    <div class="subtitle">Login to your account</div>
+
+    <form id="loginForm">
+
+        <label for="username">Username</label>
+        <input
+            type="text"
+            id="username"
+            placeholder="Enter username"
+            required
+        >
+
+        <label for="password">Password</label>
+        <input
+            type="password"
+            id="password"
+            placeholder="Enter password"
+            required
+        >
+
+        <button type="submit" id="loginButton">
+            Login
+        </button>
+
+    </form>
+
+    <div id="message"></div>
+
+    <div class="links">
+        Don't have an account?
+        <a href="/signup.html">Create Account</a>
+
+        <br><br>
+
+        <a href="/index.html">← Back to Home</a>
+    </div>
+
+</div>
+
+<script>
+const form = document.getElementById("loginForm");
+const message = document.getElementById("message");
+const button = document.getElementById("loginButton");
+
+function showMessage(text, type) {
+    message.className = type;
+    message.innerText = text;
+}
+
+form.addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const username =
+        document.getElementById("username").value.trim();
+
+    const password =
+        document.getElementById("password").value;
+
+    button.disabled = true;
+    button.innerText = "Logging in...";
+
+    try {
+        const response = await fetch("/api/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password
+            })
+        });
+
+        const data = await response.json();
+
+       
+if (response.ok && data.success) {
+
+    // Get user information returned by backend
+    const loggedUser = data.user || data.farmer || {};
+
+    // Get actual MongoDB user ID
+    const actualUserId =
+        loggedUser._id ||
+        loggedUser.id ||
+        loggedUser.userId ||
+        data.userId;
+
+    // Get username
+    const actualUserName =
+        loggedUser.username ||
+        loggedUser.name ||
+        loggedUser.farmerName ||
+        username;
+
+    // Check user ID
+    if (!actualUserId) {
+        console.error("Login response:", data);
+
+        showMessage(
+            "User ID not received from backend.",
+            "error"
+        );
+
+        return;
+    }
+
+    // Save login information
+    localStorage.setItem(
+        "user",
+        JSON.stringify(loggedUser)
+    );
+
+    localStorage.setItem(
+        "userId",
+        String(actualUserId)
+    );
+
+    localStorage.setItem(
+        "farmerId",
+        String(actualUserId)
+    );
+
+    localStorage.setItem(
+        "userName",
+        actualUserName
+    );
+
+    showMessage(
+        "Login successful! Opening dashboard...",
+        "success"
+    );
+
+    setTimeout(() => {
+        window.location.href = "/dashboard.html";
+    }, 1000);
+
+}
+
+         else {
+            showMessage(
+                data.message || "Login failed",
+                "error"
+            );
+        }
+
+    } catch (error) {
+        console.error(error);
+
+        showMessage(
+            "Cannot connect to server. Check backend.",
+            "error"
+        );
+
+    } finally {
+        button.disabled = false;
+        button.innerText = "Login";
+    }
+});
+</script>
+
+</body>
+</html>

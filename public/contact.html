@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact - Smart Agriculture</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    color: #183b24;
+    background:
+        linear-gradient(rgba(225,247,228,.88), rgba(210,242,216,.88)),
+        url("https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=2000&q=80");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+header {
+    width: 100%;
+    background: linear-gradient(90deg,#08752e,#168b3d,#239447);
+    color: white;
+    padding: 18px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    box-shadow: 0 3px 10px rgba(0,0,0,.2);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 28px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.logo-icon {
+    font-size: 35px;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 9px 11px;
+    border-radius: 20px;
+}
+
+nav a:hover {
+    background: rgba(255,255,255,.18);
+}
+
+.login-link {
+    background: white;
+    color: #08752e !important;
+    padding: 9px 17px !important;
+    margin-left: 5px;
+}
+
+.signup-link {
+    background: #f4b400;
+    color: white !important;
+    padding: 9px 17px !important;
+}
+
+.container {
+    width: 80%;
+    max-width: 1100px;
+    margin: 35px auto 60px;
+}
+
+.page-title {
+    text-align: center;
+    color: #08752e;
+    font-size: 40px;
+    margin-bottom: 8px;
+}
+
+.page-subtitle {
+    text-align: center;
+    color: #45604c;
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+.card {
+    background: white;
+    padding: 38px;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,.12);
+    margin-bottom: 30px;
+}
+
+.card h2 {
+    color: #08752e;
+    font-size: 28px;
+    margin-bottom: 25px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+label {
+    color: #145c2e;
+    font-weight: bold;
+    margin-bottom: 9px;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #c8d8cb;
+    border-radius: 9px;
+    font-size: 16px;
+    outline: none;
+    background: white;
+}
+
+textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #08752e;
+    box-shadow: 0 0 5px rgba(8,117,46,.25);
+}
+
+button,
+.button-link {
+    display: inline-block;
+    margin-top: 28px;
+    padding: 13px 30px;
+    background: #f4b400;
+    color: white;
+    border: none;
+    border-radius: 9px;
+    font-size: 17px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+button:hover,
+.button-link:hover {
+    background: #d99d00;
+}
+
+.result {
+    display: none;
+    margin-top: 25px;
+    padding: 20px;
+    background: #e5f7e7;
+    border-left: 5px solid #08752e;
+    border-radius: 6px;
+    line-height: 1.7;
+}
+
+.result h3 {
+    color: #08752e;
+    margin-bottom: 8px;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.contact-box {
+    background: #f5fbf5;
+    padding: 22px;
+    border-radius: 12px;
+    border: 1px solid #d6e8d8;
+}
+
+.contact-box h3 {
+    color: #08752e;
+    margin-bottom: 10px;
+}
+
+.contact-box p {
+    color: #405448;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+footer {
+    background: #075c27;
+    color: white;
+    text-align: center;
+    padding: 25px;
+}
+
+footer p {
+    margin: 5px;
+}
+
+@media (max-width: 1000px) {
+    header {
+        flex-direction: column;
+    }
+
+    .container {
+        width: 90%;
+    }
+
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .logo {
+        font-size: 22px;
+    }
+
+    nav a {
+        font-size: 13px;
+        padding: 7px;
+    }
+
+    .page-title {
+        font-size: 30px;
+    }
+
+    .card {
+        padding: 25px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group.full-width {
+        grid-column: auto;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">
+        <span class="logo-icon">🌱</span>
+        <span>Smart Agriculture</span>
+    </div>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="crops.html">Crop</a>
+        <a href="soil.html">Soil</a>
+        <a href="irrigation.html">Irrigation</a>
+        <a href="disease.html">Disease Detection</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="login.html" class="login-link">Login</a>
+        <a href="signup.html" class="signup-link">Sign In</a>
+    </nav>
+</header>
+
+<main class="container">
+    <h1 class="page-title">Contact Us</h1>
+    <p class="page-subtitle">Send us your questions or feedback</p>
+
+    <section class="card">
+        <h2>✉️ Send a Message</h2>
+
+        <form id="contactForm">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" placeholder="Enter your name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" placeholder="Enter message subject" required>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="message">Message</label>
+                    <textarea id="message" placeholder="Write your message here..." required></textarea>
+                </div>
+            </div>
+
+            <button type="submit">Send Message</button>
+        </form>
+
+        <div class="result" id="result" role="status">
+            <h3>✅ Message ready</h3>
+            <p id="resultText"></p>
+        </div>
+    </section>
+
+    <section class="card">
+        <h2>📞 Contact Information</h2>
+
+        <div class="contact-grid">
+            <div class="contact-box">
+                <h3>Project</h3>
+                <p>Smart Agriculture Management System</p>
+            </div>
+
+            <div class="contact-box">
+                <h3>Purpose</h3>
+                <p>For project-related questions and feedback.</p>
+            </div>
+
+            <div class="contact-box">
+                <h3>Response</h3>
+                <p>This demonstration form shows a confirmation on this page.</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>🌱 Smart Agriculture Management System</p>
+    <p>Smart technology for modern farming</p>
+    <p>© 2026 Smart Agriculture</p>
+</footer>
+
+<script>
+document.getElementById("contactForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const name = document.getElementById("name").value.trim();
+    const subject = document.getElementById("subject").value.trim();
+
+    document.getElementById("resultText").textContent =
+        "Thank you, " + name + ". Your message about \"" + subject +
+        "\" has been recorded on this demo page.";
+
+    document.getElementById("result").style.display = "block";
+    this.reset();
+});
+</script>
+
+</body>
+</html>

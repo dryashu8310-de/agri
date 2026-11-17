@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Crop Disease Detection</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<header>
+
+<nav class="navbar">
+
+<div class="logo">
+🌱 Smart Agriculture
+</div>
+
+<ul class="nav-links">
+
+<li><a href="index.html">Home</a></li>
+<li><a href="dashboard.html">Dashboard</a></li>
+<li><a href="crops.html">Crops</a></li>
+<li><a href="soil.html">Soil</a></li>
+<li><a href="irrigation.html">Irrigation</a></li>
+<li><a href="disease.html">Disease Detection</a></li>
+<li><a href="about.html">About</a></li>
+<li><a href="contact.html">Contact</a></li>
+
+</ul>
+
+<button class="menu-btn"
+onclick="toggleMenu()">☰</button>
+
+</nav>
+
+</header>
+
+
+<section class="page-header">
+
+<h1>Crop Disease Detection</h1>
+
+<p>Upload a crop leaf image for analysis</p>
+
+</section>
+
+
+<div class="form-container">
+
+<div class="upload-box">
+
+<h2>🔬 Upload Crop Image</h2>
+
+<p>
+Select a crop leaf image for disease analysis.
+</p>
+
+
+<input
+type="file"
+id="leafImage"
+accept="image/*"
+onchange="previewImage(event)">
+
+
+<div id="imagePreview"></div>
+
+
+<br>
+
+
+<button
+class="btn primary-btn"
+onclick="detectDisease()">
+
+Analyze Image
+
+</button>
+
+</div>
+
+
+<div
+class="result-box"
+id="diseaseResult">
+
+</div>
+
+</div>
+
+
+<script src="js/script.js"></script>
+
+<script>
+
+function previewImage(event) {
+
+const file =
+event.target.files[0];
+
+const preview =
+document.getElementById("imagePreview");
+
+
+if (!file) {
+
+preview.innerHTML = "";
+
+return;
+
+}
+
+
+const reader =
+new FileReader();
+
+
+reader.onload = function(e) {
+
+preview.innerHTML = `
+<br>
+<img
+src="${e.target.result}"
+alt="Crop Image"
+style="
+max-width:250px;
+max-height:250px;
+border-radius:10px;
+">
+`;
+
+};
+
+
+reader.readAsDataURL(file);
+
+}
+
+
+function detectDisease() {
+
+const file =
+document.getElementById("leafImage").files[0];
+
+const result =
+document.getElementById("diseaseResult");
+
+
+if (!file) {
+
+alert("Please select a crop image first.");
+
+return;
+
+}
+
+
+result.innerHTML = `
+<strong>Image uploaded successfully.</strong>
+<br><br>
+AI disease detection will be connected
+to the backend machine-learning model later.
+`;
+
+result.style.display = "block";
+
+}
+
+</script>
+
+</body>
+
+</html>

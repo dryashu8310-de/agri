@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Smart Irrigation</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<header>
+
+<nav class="navbar">
+
+<div class="logo">
+🌱 Smart Agriculture
+</div>
+
+<ul class="nav-links">
+
+<li><a href="index.html">Home</a></li>
+<li><a href="dashboard.html">Dashboard</a></li>
+<li><a href="crops.html">Crops</a></li>
+<li><a href="soil.html">Soil</a></li>
+<li><a href="irrigation.html">Irrigation</a></li>
+<li><a href="disease.html">Disease Detection</a></li>
+<li><a href="about.html">About</a></li>
+<li><a href="contact.html">Contact</a></li>
+
+</ul>
+
+<button class="menu-btn"
+onclick="toggleMenu()">☰</button>
+
+</nav>
+
+</header>
+
+
+<section class="page-header">
+
+<h1>Smart Irrigation</h1>
+
+<p>Manage water requirements efficiently</p>
+
+</section>
+
+
+<div class="form-container">
+
+<h2>Irrigation Calculator</h2>
+
+<br>
+
+<form onsubmit="calculateWater(event)">
+
+<div class="form-group">
+
+<label>Crop</label>
+
+<select id="irrigationCrop">
+
+<option>Rice</option>
+<option>Maize</option>
+<option>Tomato</option>
+<option>Wheat</option>
+<option>Sugarcane</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Farm Area (Acres)</label>
+
+<input
+type="number"
+id="farmArea"
+min="0"
+step="0.1"
+required>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Soil Moisture (%)</label>
+
+<input
+type="number"
+id="moisture"
+min="0"
+max="100"
+required>
+
+</div>
+
+
+<button
+class="btn primary-btn"
+type="submit">
+
+Calculate
+
+</button>
+
+</form>
+
+
+<div
+class="result-box"
+id="irrigationResult">
+
+</div>
+
+</div>
+
+
+<script src="js/script.js"></script>
+
+<script>
+
+function calculateWater(event) {
+
+event.preventDefault();
+
+const crop =
+document.getElementById("irrigationCrop").value;
+
+const area =
+parseFloat(document.getElementById("farmArea").value);
+
+const moisture =
+parseFloat(document.getElementById("moisture").value);
+
+
+const result =
+document.getElementById("irrigationResult");
+
+
+if (moisture >= 70) {
+
+result.innerHTML =
+"<strong>Irrigation Status:</strong> Soil moisture is sufficient. Irrigation may not be required now.";
+
+}
+else if (moisture >= 40) {
+
+result.innerHTML =
+"<strong>Irrigation Status:</strong> Moderate moisture. Monitor the crop and consider irrigation if needed.";
+
+}
+else {
+
+result.innerHTML =
+"<strong>Irrigation Status:</strong> Low soil moisture. Irrigation is recommended based on crop requirements.";
+
+}
+
+
+result.style.display = "block";
+
+}
+
+</script>
+
+</body>
+
+</html>

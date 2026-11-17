@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Soil Management</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<header>
+
+<nav class="navbar">
+
+<div class="logo">
+🌱 Smart Agriculture
+</div>
+
+<ul class="nav-links">
+
+<li><a href="index.html">Home</a></li>
+<li><a href="dashboard.html">Dashboard</a></li>
+<li><a href="crops.html">Crops</a></li>
+<li><a href="soil.html">Soil</a></li>
+<li><a href="irrigation.html">Irrigation</a></li>
+<li><a href="disease.html">Disease Detection</a></li>
+<li><a href="about.html">About</a></li>
+<li><a href="contact.html">Contact</a></li>
+
+</ul>
+
+<button class="menu-btn"
+onclick="toggleMenu()">☰</button>
+
+</nav>
+
+</header>
+
+
+<section class="page-header">
+
+<h1>Soil Management</h1>
+
+<p>Monitor soil health and nutrients</p>
+
+</section>
+
+
+<div class="form-container">
+
+<h2>Soil Information</h2>
+
+<br>
+
+<form onsubmit="checkSoil(event)">
+
+<div class="form-group">
+
+<label>Soil Type</label>
+
+<select id="soilType">
+
+<option>Loamy Soil</option>
+<option>Clay Soil</option>
+<option>Sandy Soil</option>
+<option>Silty Soil</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Soil pH</label>
+
+<input
+type="number"
+id="ph"
+min="0"
+max="14"
+step="0.1"
+placeholder="Example: 6.8"
+required>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Nitrogen (N)</label>
+
+<input
+type="number"
+id="nitrogen"
+placeholder="Enter nitrogen value"
+required>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Phosphorus (P)</label>
+
+<input
+type="number"
+id="phosphorus"
+placeholder="Enter phosphorus value"
+required>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Potassium (K)</label>
+
+<input
+type="number"
+id="potassium"
+placeholder="Enter potassium value"
+required>
+
+</div>
+
+
+<button
+type="submit"
+class="btn primary-btn">
+
+Check Soil
+
+</button>
+
+</form>
+
+</div>
+
+
+<div class="info-grid">
+
+<div class="info-card">
+
+<h3>🌱 Soil Type</h3>
+
+<p id="soilResult">
+Enter soil information above.
+</p>
+
+</div>
+
+
+<div class="info-card">
+
+<h3>⚗️ Soil pH</h3>
+
+<p>
+Ideal agricultural soil pH is generally around
+6.0 – 7.5 for many crops.
+</p>
+
+</div>
+
+
+<div class="info-card">
+
+<h3>🌾 Fertilizer Recommendation</h3>
+
+<p id="fertilizerResult">
+Recommendation will appear after checking soil.
+</p>
+
+</div>
+
+</div>
+
+
+<script src="js/script.js"></script>
+
+<script>
+
+function checkSoil(event) {
+
+event.preventDefault();
+
+const ph =
+parseFloat(document.getElementById("ph").value);
+
+const soil =
+document.getElementById("soilType").value;
+
+
+document.getElementById("soilResult").innerText =
+soil + " selected. Soil pH: " + ph;
+
+
+let recommendation;
+
+
+if (ph < 5.5) {
+
+recommendation =
+"Consider suitable soil amendments to improve soil pH.";
+
+}
+else if (ph > 8) {
+
+recommendation =
+"Consider measures to reduce soil alkalinity.";
+
+}
+else {
+
+recommendation =
+"Soil pH is suitable for many agricultural crops.";
+
+}
+
+
+document.getElementById("fertilizerResult").innerText =
+recommendation;
+
+alert("Soil information checked successfully!");
+
+}
+
+</script>
+
+</body>
+
+</html>

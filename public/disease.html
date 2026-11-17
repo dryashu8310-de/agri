@@ -1,0 +1,703 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crop Disease Management | Smart Agriculture</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 25px;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(rgba(0,75,48,.80),rgba(0,75,48,.80)),
+    url("https://images.unsplash.com/photo-1500382017468-9049fed747ef")
+    center/cover fixed;
+    color: #173c2a;
+}
+
+.container {
+    max-width: 920px;
+    margin: 0 auto 25px;
+    padding: 30px;
+    background: white;
+    border-radius: 13px;
+    box-shadow: 0 5px 20px rgba(0,0,0,.15);
+}
+
+h1, h2 {
+    color: #087b3d;
+    text-align: center;
+}
+
+h1 {
+    margin-top: 0;
+    font-size: 34px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #555;
+    margin-bottom: 22px;
+}
+
+.login-info {
+    background: #e5f5e8;
+    border-left: 5px solid #168746;
+    padding: 14px;
+    border-radius: 6px;
+    margin-bottom: 22px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 9px;
+}
+
+input, select {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #c8dfce;
+    border-radius: 8px;
+    font-size: 16px;
+    background: white;
+}
+
+input:focus, select:focus {
+    outline: 2px solid #198754;
+}
+
+.button-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 22px;
+}
+
+button {
+    border: none;
+    border-radius: 8px;
+    padding: 14px 20px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.save-btn {
+    background: #087b38;
+    color: white;
+}
+
+.refresh-btn {
+    background: #1769c2;
+    color: white;
+}
+
+button:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
+.message {
+    display: none;
+    padding: 14px;
+    margin-top: 17px;
+    border-radius: 7px;
+}
+
+.success {
+    display: block;
+    color: #087443;
+    background: #dff5e4;
+}
+
+.error {
+    display: block;
+    color: #b42318;
+    background: #ffe1e1;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    min-width: 650px;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th {
+    background: #087b3d;
+    color: white;
+    padding: 13px;
+    text-align: left;
+}
+
+td {
+    padding: 12px;
+    border: 1px solid #d7e5da;
+}
+
+.empty {
+    text-align: center;
+    padding: 25px;
+    color: #555;
+}
+
+@media(max-width:600px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        padding: 18px;
+    }
+
+    .button-row button {
+        width: 100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- DISEASE FORM -->
+
+<div class="container">
+
+    <h1>🩺 Crop Disease Management</h1>
+
+    <p class="subtitle">
+        Record crop disease information.
+    </p>
+
+    <div class="login-info">
+        👤 Logged in as:
+        <strong id="loggedInUser">Farmer</strong>
+    </div>
+
+    <form id="diseaseForm">
+
+        <div class="form-group">
+            <label for="cropName">Crop Name *</label>
+
+            <select id="cropName" required>
+                <option value="">-- Select Crop --</option>
+                <option value="Rice">Rice</option>
+                <option value="Wheat">Wheat</option>
+                <option value="Maize">Maize</option>
+                <option value="Ragi">Ragi</option>
+                <option value="Sugarcane">Sugarcane</option>
+                <option value="Cotton">Cotton</option>
+                <option value="Groundnut">Groundnut</option>
+                <option value="Tomato">Tomato</option>
+                <option value="Potato">Potato</option>
+                <option value="Onion">Onion</option>
+                <option value="Pulses">Pulses</option>
+                <option value="Millets">Millets</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="diseaseName">Disease Name *</label>
+
+            <select id="diseaseName" required>
+                <option value="">-- Select Disease --</option>
+                <option value="Leaf Spot">Leaf Spot</option>
+                <option value="Leaf Blight">Leaf Blight</option>
+                <option value="Rust">Rust</option>
+                <option value="Powdery Mildew">Powdery Mildew</option>
+                <option value="Downy Mildew">Downy Mildew</option>
+                <option value="Root Rot">Root Rot</option>
+                <option value="Stem Rot">Stem Rot</option>
+                <option value="Anthracnose">Anthracnose</option>
+                <option value="Bacterial Wilt">Bacterial Wilt</option>
+                <option value="Mosaic Virus">Mosaic Virus</option>
+                <option value="Late Blight">Late Blight</option>
+                <option value="Early Blight">Early Blight</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="severity">Severity *</label>
+
+            <select id="severity" required>
+                <option value="">-- Select Severity --</option>
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+                <option value="Critical">Critical</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="detectionDate">Detection Date *</label>
+
+            <input
+                type="date"
+                id="detectionDate"
+                required
+            >
+        </div>
+
+        <div class="button-row">
+
+            <button
+                type="submit"
+                class="save-btn"
+                id="saveButton">
+                💾 Save Disease Data
+            </button>
+
+            <button
+                type="button"
+                class="refresh-btn"
+                id="refreshButton">
+                🔄 Refresh Records
+            </button>
+
+        </div>
+
+    </form>
+
+    <div id="message" class="message"></div>
+
+</div>
+
+
+<!-- SAVED DISEASE RECORDS -->
+
+<div class="container">
+
+    <h2>📋 Saved Disease Records</h2>
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Crop Name</th>
+                    <th>Disease Name</th>
+                    <th>Severity</th>
+                    <th>Detection Date</th>
+                </tr>
+            </thead>
+
+            <tbody id="recordsBody">
+                <tr>
+                    <td colspan="4" class="empty">
+                        Loading records...
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<script>
+
+// ========================================
+// USER INFORMATION
+// ========================================
+
+const userId =
+    localStorage.getItem("userId");
+
+let userName =
+    localStorage.getItem("userName") || "Farmer";
+
+try {
+
+    const user = JSON.parse(
+        localStorage.getItem("user") || "{}"
+    );
+
+    userName =
+        user.farmerName ||
+        user.username ||
+        user.name ||
+        userName;
+
+} catch(error) {
+
+    console.log("User information loaded.");
+
+}
+
+document.getElementById("loggedInUser").textContent =
+    userName;
+
+
+// ========================================
+// ELEMENTS
+// ========================================
+
+const form =
+    document.getElementById("diseaseForm");
+
+const recordsBody =
+    document.getElementById("recordsBody");
+
+const messageBox =
+    document.getElementById("message");
+
+const saveButton =
+    document.getElementById("saveButton");
+
+
+// ========================================
+// MESSAGE
+// ========================================
+
+function showMessage(message, type) {
+
+    messageBox.textContent = message;
+
+    messageBox.className =
+        "message " + type;
+
+}
+
+function clearMessage() {
+
+    messageBox.textContent = "";
+
+    messageBox.className = "message";
+
+}
+
+
+// ========================================
+// SAFE HTML
+// ========================================
+
+function escapeHTML(value) {
+
+    return String(value ?? "").replace(
+        /[&<>"']/g,
+        character => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#039;"
+        })[character]
+    );
+
+}
+
+
+// ========================================
+// SERVER RESPONSE
+// ========================================
+
+async function readResponse(response) {
+
+    const text = await response.text();
+
+    let result;
+
+    try {
+
+        result = JSON.parse(text);
+
+    } catch(error) {
+
+        throw new Error(
+            "Invalid server response. Check backend."
+        );
+
+    }
+
+    if (!response.ok || result.success === false) {
+
+        throw new Error(
+            result.message || "Request failed."
+        );
+
+    }
+
+    return result;
+
+}
+
+
+// ========================================
+// SAVE DISEASE DATA
+// ========================================
+
+form.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    clearMessage();
+
+    if (!userId) {
+
+        showMessage(
+            "Please login again. User ID not found.",
+            "error"
+        );
+
+        return;
+
+    }
+
+    const data = {
+
+        cropName:
+            document.getElementById("cropName").value,
+
+        diseaseName:
+            document.getElementById("diseaseName").value,
+
+        severity:
+            document.getElementById("severity").value,
+
+        detectionDate:
+            document.getElementById("detectionDate").value
+
+    };
+
+    if (
+        !data.cropName ||
+        !data.diseaseName ||
+        !data.severity ||
+        !data.detectionDate
+    ) {
+
+        showMessage(
+            "Please fill in all required fields.",
+            "error"
+        );
+
+        return;
+
+    }
+
+    saveButton.disabled = true;
+
+    saveButton.textContent = "Saving...";
+
+    try {
+
+        const response = await fetch(
+            "/api/disease",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    userId: userId,
+
+                    ...data,
+
+                    // Compatibility with the existing
+                    // backend disease schema.
+                    symptoms: "Not provided",
+                    treatment: "Not provided"
+
+                })
+            }
+        );
+
+        const result = await readResponse(response);
+
+        showMessage(
+            result.message ||
+            "Disease data saved successfully to MongoDB.",
+            "success"
+        );
+
+        form.reset();
+
+        await loadRecords();
+
+    } catch(error) {
+
+        console.error("Disease save error:", error);
+
+        showMessage(
+            "Unable to save disease data: " + error.message,
+            "error"
+        );
+
+    } finally {
+
+        saveButton.disabled = false;
+
+        saveButton.textContent =
+            "💾 Save Disease Data";
+
+    }
+
+});
+
+
+// ========================================
+// LOAD SAVED DISEASE RECORDS
+// ========================================
+
+async function loadRecords() {
+
+    if (!userId) {
+
+        recordsBody.innerHTML = `
+            <tr>
+                <td colspan="4" class="empty">
+                    Please login to view disease records.
+                </td>
+            </tr>
+        `;
+
+        return;
+
+    }
+
+    recordsBody.innerHTML = `
+        <tr>
+            <td colspan="4" class="empty">
+                Loading records...
+            </td>
+        </tr>
+    `;
+
+    try {
+
+        const response = await fetch(
+            "/api/disease/" +
+            encodeURIComponent(userId)
+        );
+
+        const result = await readResponse(response);
+
+        const diseaseRecords =
+            result.records ||
+            result.data ||
+            result.disease ||
+            [];
+
+        if (!Array.isArray(diseaseRecords)) {
+
+            throw new Error(
+                "Unexpected disease records format."
+            );
+
+        }
+
+        recordsBody.innerHTML = "";
+
+        if (diseaseRecords.length === 0) {
+
+            recordsBody.innerHTML = `
+                <tr>
+                    <td colspan="4" class="empty">
+                        No disease records saved yet.
+                    </td>
+                </tr>
+            `;
+
+            return;
+
+        }
+
+        diseaseRecords.forEach(function(record) {
+
+            const disease = record.data || record;
+
+            const date = disease.detectionDate
+                ? new Date(
+                    disease.detectionDate + "T00:00:00"
+                  ).toLocaleDateString("en-IN")
+                : "-";
+
+            const row = document.createElement("tr");
+
+            row.innerHTML = `
+                <td>
+                    ${escapeHTML(disease.cropName)}
+                </td>
+
+                <td>
+                    ${escapeHTML(disease.diseaseName)}
+                </td>
+
+                <td>
+                    ${escapeHTML(disease.severity)}
+                </td>
+
+                <td>
+                    ${escapeHTML(date)}
+                </td>
+            `;
+
+            recordsBody.appendChild(row);
+
+        });
+
+    } catch(error) {
+
+        console.error("Disease loading error:", error);
+
+        recordsBody.innerHTML = `
+            <tr>
+                <td colspan="4" class="empty">
+                    Unable to load records:
+                    ${escapeHTML(error.message)}
+                </td>
+            </tr>
+        `;
+
+    }
+
+}
+
+
+// ========================================
+// REFRESH RECORDS
+// ========================================
+
+document.getElementById("refreshButton")
+.addEventListener("click", function() {
+
+    clearMessage();
+
+    loadRecords();
+
+});
+
+
+// ========================================
+// INITIAL LOAD
+// ========================================
+
+loadRecords();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Smart Agriculture Management System</title>
+
+    <style>
+
+        /* =========================
+           BASIC SETTINGS
+        ========================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #e8f5e9;
+            color: #333;
+        }
+
+
+        /* =========================
+           NAVIGATION BAR
+        ========================= */
+
+        header {
+            background: #1b5e20;
+            padding: 15px 40px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        nav ul li a:hover {
+            color: #a5d6a7;
+        }
+
+
+        /* =========================
+           HERO SECTION
+        ========================= */
+
+        .hero {
+            min-height: 80vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            text-align: center;
+
+            padding: 50px 20px;
+
+            background:
+                linear-gradient(
+                    rgba(27, 94, 32, 0.75),
+                    rgba(46, 125, 50, 0.75)
+                ),
+                url("https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1600&q=80");
+
+            background-size: cover;
+            background-position: center;
+
+            color: white;
+        }
+
+        .hero-content {
+            max-width: 850px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+
+        .hero-btn {
+            display: inline-block;
+            padding: 14px 30px;
+            background: white;
+            color: #2e7d32;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 17px;
+        }
+
+        .hero-btn:hover {
+            background: #c8e6c9;
+        }
+
+
+        /* =========================
+           FEATURES
+        ========================= */
+
+        .features {
+            padding: 60px 7%;
+            text-align: center;
+        }
+
+        .features h2 {
+            color: #1b5e20;
+            font-size: 34px;
+            margin-bottom: 40px;
+        }
+
+        .feature-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+
+            box-shadow:
+                0 5px 15px rgba(0, 0, 0, 0.1);
+
+            transition: 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card .icon {
+            font-size: 45px;
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            color: #2e7d32;
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            line-height: 1.6;
+            color: #555;
+        }
+
+
+        /* =========================
+           ABOUT SECTION
+        ========================= */
+
+        .about {
+            background: #c8e6c9;
+            padding: 60px 10%;
+            text-align: center;
+        }
+
+        .about h2 {
+            color: #1b5e20;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .about p {
+            max-width: 850px;
+            margin: auto;
+            line-height: 1.8;
+            font-size: 17px;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            background: #1b5e20;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .feature-container {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .hero h1 {
+                font-size: 38px;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            header {
+                padding: 15px;
+            }
+
+            nav ul {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+
+            .feature-container {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 30px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         NAVIGATION
+    ========================= -->
+
+    <header>
+
+        <nav>
+
+            <div class="logo">
+                🌱 Smart Agriculture
+            </div>
+
+            <ul>
+
+                <li>
+                    <a href="index.html">Home</a>
+                </li>
+
+                <li>
+                    <a href="dashboard.html">Dashboard</a>
+                </li>
+
+                <li>
+                    <a href="crops.html">Crops</a>
+                </li>
+
+                <li>
+                    <a href="soil.html">Soil</a>
+                </li>
+
+                <li>
+                    <a href="irrigation.html">Irrigation</a>
+                </li>
+
+                <li>
+                    <a href="disease.html">Disease Detection</a>
+                </li>
+
+                <li>
+                    <a href="about.html">About</a>
+                </li>
+
+                <li>
+                    <a href="contact.html">Contact</a>
+                </li>
+
+            </ul>
+
+        </nav>
+
+    </header>
+
+
+
+    <!-- =========================
+         HERO
+    ========================= -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <h1>
+                Smart Agriculture Management System
+            </h1>
+
+            <p>
+                Modern technology for smarter farming,
+                better crop management, soil monitoring,
+                irrigation and plant disease detection.
+            </p>
+
+            <a
+                href="dashboard.html"
+                class="hero-btn">
+
+                Go to Dashboard
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         FEATURES
+    ========================= -->
+
+    <section class="features">
+
+        <h2>
+            Our Features
+        </h2>
+
+
+        <div class="feature-container">
+
+
+            <div class="feature-card">
+
+                <div class="icon">
+                    🌾
+                </div>
+
+                <h3>
+                    Crop Management
+                </h3>
+
+                <p>
+                    Manage crop information, planting dates,
+                    harvesting dates and crop status.
+                </p>
+
+            </div>
+
+
+
+            <div class="feature-card">
+
+                <div class="icon">
+                    🌱
+                </div>
+
+                <h3>
+                    Soil Management
+                </h3>
+
+                <p>
+                    Monitor soil type, pH level, nitrogen,
+                    phosphorus and potassium.
+                </p>
+
+            </div>
+
+
+
+            <div class="feature-card">
+
+                <div class="icon">
+                    💧
+                </div>
+
+                <h3>
+                    Smart Irrigation
+                </h3>
+
+                <p>
+                    Monitor soil moisture and make
+                    better irrigation decisions.
+                </p>
+
+            </div>
+
+
+
+            <div class="feature-card">
+
+                <div class="icon">
+                    🦠
+                </div>
+
+                <h3>
+                    Disease Detection
+                </h3>
+
+                <p>
+                    Upload crop images for plant disease
+                    detection using AI technology.
+                </p>
+
+            </div>
+
+
+
+            <div class="feature-card">
+
+                <div class="icon">
+                    ☁️
+                </div>
+
+                <h3>
+                    Weather Information
+                </h3>
+
+                <p>
+                    Use weather information to support
+                    agricultural decision making.
+                </p>
+
+            </div>
+
+
+
+            <div class="feature-card">
+
+                <div class="icon">
+                    📊
+                </div>
+
+                <h3>
+                    Agriculture Dashboard
+                </h3>
+
+                <p>
+                    View important agriculture information
+                    from one central dashboard.
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         ABOUT
+    ========================= -->
+
+    <section class="about">
+
+        <h2>
+            About Smart Agriculture
+        </h2>
+
+        <p>
+            The Smart Agriculture Management System is a
+            web-based application designed to help farmers
+            manage agricultural activities using modern
+            technology. The system provides crop management,
+            soil management, irrigation monitoring and disease
+            detection features in one platform.
+        </p>
+
+    </section>
+
+
+
+    <!-- =========================
+         FOOTER
+    ========================= -->
+
+    <footer>
+
+        <p>
+            © 2026 Smart Agriculture Management System
+        </p>
+
+    </footer>
+
+
+</body>
+
+</html>

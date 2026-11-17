@@ -1,0 +1,227 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Irrigation Management - Smart Agriculture</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(#064e3bcc,#14532dcc),url("https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1600&q=80") center/cover fixed;color:#163b27}
+nav{background:#056329;color:white;padding:17px 5%;display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}
+nav a{color:white;text-decoration:none;font-weight:bold;margin-left:14px}
+.container{max-width:850px;margin:35px auto;background:white;padding:28px;border-radius:15px;box-shadow:0 8px 25px #0003}
+h1,h2{color:#087b32;text-align:center}
+.subtitle{text-align:center;color:#555}
+label{display:block;font-weight:bold;margin:17px 0 7px}
+input,select,textarea{width:100%;padding:12px;border:1px solid #c6ddcc;border-radius:7px;font-size:16px}
+textarea{min-height:85px;resize:vertical}
+button{padding:13px 18px;border:0;border-radius:7px;background:#087b32;color:white;font-weight:bold;font-size:16px;cursor:pointer;margin-top:18px}
+button:hover{background:#055b25}
+button.secondary{background:#1768c4}
+#message{padding:12px;border-radius:7px;margin-top:15px;display:none;overflow-wrap:anywhere}
+.success{display:block!important;background:#e1f5e5;color:#075d24}
+.error{display:block!important;background:#ffe4e4;color:#a00000}
+.record{background:#f1f8ed;border-left:4px solid #087b32;padding:15px;margin:12px 0;border-radius:7px;overflow-wrap:anywhere}
+.record pre{white-space:pre-wrap;font-family:Arial,sans-serif;overflow-wrap:anywhere}
+nav .links{display:flex;flex-wrap:wrap;gap:10px}
+@media(max-width:600px){.container{margin:15px;padding:18px}nav{padding:15px}}
+</style>
+</head>
+<body>
+<nav>
+  <strong>🌱 Smart Agriculture</strong>
+  <div class="links">
+    <a href="/index.html">Home</a>
+    <a href="/dashboard.html">Dashboard</a>
+    <a href="/soil.html">Soil</a>
+    <a href="/crops.html">Crops</a>
+    <a href="/disease.html">Disease</a>
+  </div>
+</nav>
+
+<main class="container">
+<h1>💧 Irrigation Management</h1>
+<p class="subtitle">Record irrigation details and save them permanently to MongoDB.</p>
+<p id="loginStatus"></p>
+
+<form id="irrigationForm">
+  <label for="cropName">Crop Name</label>
+  <input id="cropName" required placeholder="Example: Rice">
+
+  <label for="irrigationMethod">Irrigation Method</label>
+  <select id="irrigationMethod" required>
+    <option value="">Select method</option>
+    <option>Drip Irrigation</option>
+    <option>Sprinkler Irrigation</option>
+    <option>Flood Irrigation</option>
+    <option>Furrow Irrigation</option>
+    <option>Manual Watering</option>
+  </select>
+
+  <label for="waterAmount">Water Amount (litres)</label>
+  <input id="waterAmount" type="number" min="0.01" step="any" required>
+
+  <label for="schedule">Irrigation Schedule</label>
+  <input id="schedule" placeholder="Example: Every morning" required>
+
+  <label for="irrigationDate">Date</label>
+  <input id="irrigationDate" type="date" required>
+
+  <label for="irrigationNotes">Notes</label>
+  <textarea id="irrigationNotes" placeholder="Optional notes"></textarea>
+
+  <button type="submit" id="saveButton">💾 Save Irrigation Data</button>
+  <button type="button" class="secondary" onclick="loadRecords()">🔄 Refresh Records</button>
+</form>
+
+<div id="message" role="status"></div>
+
+<h2>Saved Irrigation Records</h2>
+<div id="records">Loading records...</div>
+</main>
+
+<script>
+const form = document.getElementById("irrigationForm");
+const message = document.getElementById("message");
+const records = document.getElementById("records");
+const saveButton = document.getElementById("saveButton");
+
+function showMessage(text, type) {
+  message.textContent = text;
+  message.className = type;
+}
+
+function getUserId() {
+  return localStorage.getItem("userId");
+}
+
+function checkLogin() {
+  const userId = getUserId();
+  const userName = localStorage.getItem("userName");
+
+  const loginStatus = document.getElementById("loginStatus");
+
+  if (!userId) {
+    loginStatus.textContent = "Please log in before saving irrigation data.";
+    loginStatus.className = "error";
+  } else {
+    loginStatus.textContent = "Logged in as: " + (userName || "Registered user");
+    loginStatus.className = "success";
+  }
+}
+
+form.addEventListener("submit", async function(event) {
+  event.preventDefault();
+
+  const userId = getUserId();
+
+  if (!userId) {
+    showMessage("Please log in again before saving.", "error");
+    return;
+  }
+
+  const data = {
+    cropName: document.getElementById("cropName").value.trim(),
+    irrigationMethod: document.getElementById("irrigationMethod").value,
+    waterAmount: Number(document.getElementById("waterAmount").value),
+    schedule: document.getElementById("schedule").value.trim(),
+    irrigationDate: document.getElementById("irrigationDate").value,
+    notes: document.getElementById("irrigationNotes").value.trim()
+  };
+
+  if (!data.cropName || !data.irrigationMethod ||
+      !data.schedule || !data.irrigationDate ||
+      !Number.isFinite(data.waterAmount) || data.waterAmount <= 0) {
+    showMessage("Please enter valid irrigation details.", "error");
+    return;
+  }
+
+  saveButton.disabled = true;
+  saveButton.textContent = "Saving...";
+
+  try {
+    const response = await fetch("/api/data/irrigation", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({userId, data})
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error(result.message || "Could not save irrigation data.");
+    }
+
+    showMessage("✓ Irrigation data saved successfully to MongoDB.", "success");
+    form.reset();
+    await loadRecords();
+
+  } catch (error) {
+    console.error(error);
+    showMessage(error.message || "Cannot connect to the backend.", "error");
+  } finally {
+    saveButton.disabled = false;
+    saveButton.textContent = "💾 Save Irrigation Data";
+  }
+});
+
+async function loadRecords() {
+  const userId = getUserId();
+
+  if (!userId) {
+    records.textContent = "Log in to view your irrigation records.";
+    return;
+  }
+
+  records.textContent = "Loading records...";
+
+  try {
+    const response = await fetch(
+      "/api/data/irrigation/" + encodeURIComponent(userId)
+    );
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error(result.message || "Could not load records.");
+    }
+
+    records.replaceChildren();
+
+    if (!result.records.length) {
+      records.textContent = "No irrigation records saved yet.";
+      return;
+    }
+
+    result.records.forEach(record => {
+      const card = document.createElement("div");
+      card.className = "record";
+
+      const heading = document.createElement("h3");
+      heading.textContent = record.cropName || "Irrigation Record";
+
+      const details = document.createElement("pre");
+      details.textContent =
+        "Method: " + (record.irrigationMethod || "") + "\n" +
+        "Water amount: " + (record.waterAmount ?? "") + " litres\n" +
+        "Schedule: " + (record.schedule || "") + "\n" +
+        "Date: " + (record.irrigationDate || "") + "\n" +
+        "Notes: " + (record.notes || "") + "\n" +
+        "Saved: " + (record.createdAt
+          ? new Date(record.createdAt).toLocaleString()
+          : "");
+
+      card.append(heading, details);
+      records.appendChild(card);
+    });
+  } catch (error) {
+    console.error(error);
+    records.textContent = "Unable to load records. Check the backend.";
+  }
+}
+
+checkLogin();
+loadRecords();
+</script>
+</body>
+</html>
